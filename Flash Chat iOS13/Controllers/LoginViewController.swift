@@ -1,20 +1,23 @@
-//
-//  LoginViewController.swift
-//  Flash Chat iOS13
-//
-//  Created by Angela Yu on 21/10/2019.
-//  Copyright © 2019 Angela Yu. All rights reserved.
-//
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, AuthRequester {
 
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
     
-
-    @IBAction func loginPressed(_ sender: UIButton) {
+    @IBAction private func loginPressed(_ sender: UIButton) {
+        
+        if let email = emailTextfield.text, let password = passwordTextfield.text {
+            var manager = AuthManager()
+            manager.delegate = self
+            manager.logIn(withEmail: email, withPassword: password)
+        }
+        
     }
-    
+
+    func successfulAuth() {
+        self.performSegue(withIdentifier: K.loginSegue, sender: self)
+    }
+
 }
